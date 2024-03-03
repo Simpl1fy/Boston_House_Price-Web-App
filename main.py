@@ -5,7 +5,7 @@ import pickle
 
 app = Flask(__name__)
 
-model = pickle.load('models/model.pkl', 'rb')
+model = pickle.load(open('models/model.pkl', 'rb'))
 
 @app.route('/')
 def form():
@@ -16,7 +16,8 @@ def form():
 def submit():
     data = [float(x) for x in request.form.values()]
     x = [np.array(data)]
-    x_scaled = MinMaxScaler.fit_transform(x)
+    min_max_scaler = MinMaxScaler()
+    x_scaled = min_max_scaler.fit_transform(x)
     prediction = model.predict(x_scaled)
     
     return render_template('print.html', price=prediction)
