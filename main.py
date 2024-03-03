@@ -11,18 +11,8 @@ def form():
 
 @app.route('/submit', methods=['POST', 'GET'])
 def submit():
-    if request.method == 'POST':
-        indus = float(request.form['indus'])
-        nox = float(request.form['nox'])
-        rm = float(request.form['rm'])
-        age = float(request.form['age'])
-        dis = float(request.form['dis'])
-        tax = float(request.form['tax'])
-        ptratio = float(request.form['ptratio'])
-        lstat = float(request.form['lstat'])
-    # array = np.array([indus, nox, rm, age, dis, tax, ptratio, lstat])
-    data = {'indus': indus, 'nox': nox, 'rm': rm, 'age': age, 'dis': dis, 'tax': tax, 'ptratio': ptratio, 'lstat': lstat}
-    return redirect(url_for('print', input= data))
+    input = [float(x) for x in request.values()]
+    array = [np.array(input)]
 
 
 @app.route('/print/<input>')
