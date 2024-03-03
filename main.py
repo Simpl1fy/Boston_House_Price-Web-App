@@ -15,10 +15,12 @@ def form():
 @app.route('/submit', methods=['POST', 'GET'])
 def submit():
     data = [float(x) for x in request.form.values()]
-    x = [np.array(data)]
-    min_max_scaler = MinMaxScaler()
-    x_scaled = min_max_scaler.fit_transform(x)
-    prediction = model.predict(x_scaled)
+    x = np.array(data)
+    x = x.reshape(1, -1)
+    # min_max_scaler = MinMaxScaler(feature_range=(0, 1))
+    # x_scaled = min_max_scaler.fit_transform(x.reshape(8, -1))
+    # x_scaled = x_scaled.reshape(-1, 8)
+    prediction = model.predict(x)
     
     return render_template('print.html', price=prediction)
 
