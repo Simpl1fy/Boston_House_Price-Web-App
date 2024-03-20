@@ -25,21 +25,22 @@ class DataIngestion:
         logging.info("Initiated data ingestion")
         try:
            column_names = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT', 'MEDV']
-           df = pd.read_csv('notebook/data/housing.csv', header=None, names=column_names)
+           df = pd.read_csv('notebook/data/housing.csv', header=None, names=column_names, delimiter=r"\s+")
            logging.info("Read the csv file with pandas as a dataframe")
 
            os.makedirs(os.path.dirname(self.data_ingestion_config.train_data_path), exist_ok=True)
            logging.info("Created a directory called artifact")
 
            logging.info("Saving the raw data as csv")
-           df.to_csv(self.data_ingestion_config.raw_data_path)
+           df.to_csv(self.data_ingestion_config.raw_data_path, index=False)
 
            logging.info('initiated train test split')
            train_data, test_data = train_test_split(df, test_size=0.2)
 
            logging.info("saving the train and test data into csv")
-           train_data.to_csv(self.data_ingestion_config.train_data_path)
-           test_data.to_csv(self.data_ingestion_config.test_data_path)
+           train_data.to_csv(self.data_ingestion_config.train_data_path, index=False)
+           test_data.to_csv(self.data_ingestion_config.test_data_path, index=False)
+
 
            logging.info("data ingestion is completed")
 
