@@ -8,6 +8,7 @@ __pycache__/
 
 #folders
 artifacts/
+__pycache__/
 
 # Distribution / packaging
 .Python
