@@ -2,4 +2,8 @@ pandas
 numpy
 scikit-learn
 pipeline
+matplotlib
+seaborn
+spicy
+pickle-mixin
 -e .
