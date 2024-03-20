@@ -7,7 +7,8 @@ from dataclasses import dataclass
 
 from src.exception import CustomException
 from src.logger import logging
-
+from src.components.data_transformation import DataTransformation
+from src.components.data_transformation import DataTransformationConfig
 
 @dataclass
 class DataIngestionConfig:
@@ -56,4 +57,7 @@ class DataIngestion:
 # Running the code
 if __name__ == "__main__":
     obj = DataIngestion()
-    obj.initiate_data_ingestion()
+    train_df,test_df = obj.initiate_data_ingestion()
+
+    data_transformation = DataTransformation()
+    train_arr,test_arr,_ = data_transformation.initiate_data_transformation(train_df, test_df)
