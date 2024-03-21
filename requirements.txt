@@ -6,4 +6,6 @@ matplotlib
 seaborn
 spicy
 pickle-mixin
+catboost
+xgboost
 -e .
