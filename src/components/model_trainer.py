@@ -38,6 +38,7 @@ class ModelTrainer:
                 train_arr[:, -1],
                 test_arr[:, -1]
             )
+            logging.info("converted the data into training and testing array")
 
             models = {
                 "Random Forest": RandomForestRegressor(),
@@ -49,6 +50,8 @@ class ModelTrainer:
                 "K-Neighbors Regressor": KNeighborsRegressor(),
                 "XGB Regressor": XGBRegressor()
             }
+
+            logging.info("initialized models")
 
             params = {
                 "Decision Tree": {
@@ -87,16 +90,23 @@ class ModelTrainer:
                 }
             }
 
+            logging.info("initialized parameters")
+
             model_report:dict = evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test,
                                                 y_test=y_test, models=models, param=params)
             
+            logging.info("called the evaluate_models function")
+            
             best_model_score = max(sorted(model_report.values()))
+            logging.info("got the best model score")
 
             best_model_name  = list(model_report.keys())[
                 list(model_report.values()).index(best_model_score)
             ]
+            logging.info("got the best model name")
 
             best_model = models[best_model_name]
+            logging.info('created a best model object')
 
             if best_model_score < 0.6:
                 raise CustomException("No Best Model Found")
@@ -107,10 +117,13 @@ class ModelTrainer:
                 file_path=self.model_trainer_config.trained_model_file_path,
                 obj= best_model
             )
+            logging.info('saved model pickle file')
 
             predicted = best_model.predict(X_test)
+            logging.info('got a predicted value for x_test')
 
             score = r2_score(y_test, predicted)
+            logging.info('returning r2_score')
             return score
         
         except Exception as e:
