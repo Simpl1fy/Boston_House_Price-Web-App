@@ -6,7 +6,7 @@ import numpy as np
 
 from src.exception import CustomException
 from src.logger import logging
-from src.utils import save_object
+from src.utils import save_object 
 
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.pipeline import Pipeline
@@ -31,10 +31,13 @@ class DataTransformation:
         '''
 
         try:
-            input_column = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT']
+            input_column = ['INDUS', 'NOX', 'RM', 'AGE', 'TAX', 'PTRATIO']
+            target_column = 'MEDV'
+
             input_pipeline = Pipeline(steps=[
                 ("min_max_scaler", MinMaxScaler())
             ])
+            
 
             logging.info(f"Input columns is {input_column}")
             logging.info(f"Output Column is MEDV")
@@ -44,6 +47,7 @@ class DataTransformation:
                     ("input_pipeline", input_pipeline, input_column)
                 ]   
             )
+
 
             return (
                 preprocessor
@@ -62,7 +66,6 @@ class DataTransformation:
             logging.info("obtaining preprocessing object")
 
             target_column_name = 'MEDV'
-            input_column_name = ['CRIM', 'ZN', 'INDUS', 'CHAS', 'NOX', 'RM', 'AGE', 'DIS', 'RAD', 'TAX', 'PTRATIO', 'B', 'LSTAT']
 
             preprocessing_obj = self.get_data_transformation_object()
 
@@ -76,6 +79,7 @@ class DataTransformation:
 
             input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr = preprocessing_obj.transform(input_feature_test_df)
+
 
             train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
