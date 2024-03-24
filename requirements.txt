@@ -8,4 +8,5 @@ spicy
 pickle-mixin
 catboost
 xgboost
+Gunicorn
 -e .
