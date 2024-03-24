@@ -9,4 +9,5 @@ pickle-mixin
 catboost
 xgboost
 Gunicorn
+flask
 -e .
