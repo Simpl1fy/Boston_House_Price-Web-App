@@ -24,8 +24,6 @@ def predict_datapoint():
                     tax=float(request.form.get('tax')),
                     ptratio=float(request.form.get('ptratio'))
                 )
-        
-        
         pred_df = data.get_data_as_dataframe()
         print(pred_df)
         print("Before prediction")

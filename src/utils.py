@@ -51,18 +51,3 @@ def load_object(file_path):
     except Exception as e:
         raise CustomException(e, sys)
 
-
-class ColumnDropper(BaseEstimator, TransformerMixin):
-    def fit(self, X):
-        return self
-    
-    def transform(self, X):
-        return X.drop(['CRIM', 'ZN', 'CHAS', 'DIS', 'RAD', 'B', 'LSTAT'], axis=1)
-
-class OutlierRemover(BaseEstimator, TransformerMixin):
-    def fit(self, X):
-        return self
-
-    def transform(self, X):
-        data = X[~(X['MEDV']>=50)]
-        return data

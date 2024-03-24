@@ -42,12 +42,12 @@ class CustomData:
     def get_data_as_dataframe(self):
         try:
             custom_data_dict = {
-                    "indus" : [self.indus],
-                    "nox" : [self.nox],
-                    "rm" : [self.rm],
-                    "age": [self.age],
-                    "tax" : [self.tax],
-                    "ptratio" : [self.ptratio],
+                    "INDUS" : [self.indus],
+                    "NOX" : [self.nox],
+                    "RM" : [self.rm],
+                    "AGE": [self.age],
+                    "TAX" : [self.tax],
+                    "PTRATIO" : [self.ptratio],
             } 
 
             return pd.DataFrame(custom_data_dict)
