@@ -30,12 +30,14 @@ class CustomData:
                 nox,
                 rm,
                 age,
+                dis,
                 tax,
                 ptratio):
         self.indus = indus
         self.nox = nox
         self.rm = rm
         self.age = age
+        self.dis = dis
         self.tax = tax
         self.ptratio = ptratio
 
@@ -46,6 +48,7 @@ class CustomData:
                     "NOX" : [self.nox],
                     "RM" : [self.rm],
                     "AGE": [self.age],
+                    "DIS" : [self.dis],
                     "TAX" : [self.tax],
                     "PTRATIO" : [self.ptratio],
             } 

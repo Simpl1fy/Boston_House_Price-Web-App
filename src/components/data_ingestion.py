@@ -31,7 +31,7 @@ class DataIngestion:
            df = pd.read_csv('notebook/data/housing.csv', header=None, names=column_names, delimiter=r"\s+")
            logging.info("Read the csv file with pandas as a dataframe")
 
-           df = df.drop(['CRIM', 'ZN', 'CHAS', 'DIS', 'RAD', 'B', 'LSTAT'], axis=1)
+           df = df.drop(['CRIM', 'ZN', 'CHAS', 'RAD', 'B', 'LSTAT'], axis=1)
            df = df[~(df['MEDV'] >= 50)]
 
            os.makedirs(os.path.dirname(self.data_ingestion_config.train_data_path), exist_ok=True)

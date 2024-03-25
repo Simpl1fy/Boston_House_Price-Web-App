@@ -21,6 +21,7 @@ def predict_datapoint():
                     nox=float(request.form.get('nox')),
                     rm=float(request.form.get('rm')),
                     age=float(request.form.get('age')),
+                    dis=float(request.form.get('dis')),
                     tax=float(request.form.get('tax')),
                     ptratio=float(request.form.get('ptratio'))
                 )
@@ -31,9 +32,11 @@ def predict_datapoint():
         predict_pipeline = PredictPipeline()
         print("Mid prediction")
         results = predict_pipeline.predict(pred_df)
+        output = round(results[0], 2)
         print("prediction completed")
-        return render_template('print.html', result=results[0])
+        print(output)
+        return render_template('print.html', price=output)
      
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
