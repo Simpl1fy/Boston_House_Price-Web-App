@@ -32,7 +32,8 @@ class CustomData:
                 age,
                 dis,
                 tax,
-                ptratio):
+                ptratio,
+                lstat):
         self.indus = indus
         self.nox = nox
         self.rm = rm
@@ -40,6 +41,7 @@ class CustomData:
         self.dis = dis
         self.tax = tax
         self.ptratio = ptratio
+        self.lstat = lstat
 
     def get_data_as_dataframe(self):
         try:
@@ -51,6 +53,7 @@ class CustomData:
                     "DIS" : [self.dis],
                     "TAX" : [self.tax],
                     "PTRATIO" : [self.ptratio],
+                    "LSTAT" : [self.lstat]
             } 
 
             return pd.DataFrame(custom_data_dict)

@@ -23,7 +23,8 @@ def predict_datapoint():
                     age=float(request.form.get('age')),
                     dis=float(request.form.get('dis')),
                     tax=float(request.form.get('tax')),
-                    ptratio=float(request.form.get('ptratio'))
+                    ptratio=float(request.form.get('ptratio')),
+                    lstat=float(request.form.get('lstat'))
                 )
         pred_df = data.get_data_as_dataframe()
         print(pred_df)
