@@ -12,6 +12,8 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 
+from src.utils import TargetLogger, InputLogger, ArrayToDf
+
 import pickle
 
 @dataclass
@@ -31,26 +33,25 @@ class DataTransformation:
         '''
 
         try:
-            input_column = ['INDUS', 'NOX', 'RM', 'AGE', 'TAX', 'PTRATIO']
-            target_column = 'MEDV'
+            input_column = ['INDUS', 'NOX', 'RM', 'AGE', 'DIS', 'TAX', 'PTRATIO', 'LSTAT']
+            target_column = ['MEDV']
 
             input_pipeline = Pipeline(steps=[
-                ("min_max_scaler", MinMaxScaler())
+                ("min_max_scaler", MinMaxScaler()),
+                ("Array to df", ArrayToDf()),
+                ("log skew remove", InputLogger())
             ])
             
 
             logging.info(f"Input columns is {input_column}")
-            logging.info(f"Output Column is MEDV")
+            logging.info(f"Output Column is {target_column}")
 
-            preprocessor = ColumnTransformer(
-                [
-                    ("input_pipeline", input_pipeline, input_column)
-                ]   
-            )
+            tl = TargetLogger()
 
 
             return (
-                preprocessor
+                input_pipeline,
+                tl
             )
         except Exception as e:
             raise CustomException(e, sys)
@@ -67,7 +68,7 @@ class DataTransformation:
 
             target_column_name = 'MEDV'
 
-            preprocessing_obj = self.get_data_transformation_object()
+            preprocessing_obj, target_processor_obj = self.get_data_transformation_object()
 
             input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
             target_feature_train_df = train_df[target_column_name]
@@ -75,10 +76,15 @@ class DataTransformation:
             input_feature_test_df = test_df.drop(columns=[target_column_name], axis=1)
             target_feature_test_df = test_df[target_column_name]
 
+            logging.info(f'size of input_feature_train_df is {input_feature_train_df.shape}')
+
             logging.info("applying the preprocessor object to training and testing dataset")
 
             input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr = preprocessing_obj.transform(input_feature_test_df)
+
+            target_feature_train_df = target_processor_obj.fit_transform(target_feature_train_df)
+            target_feature_test_df = target_processor_obj.transform(target_feature_test_df)
 
 
             train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
@@ -91,8 +97,7 @@ class DataTransformation:
 
             return (
                 train_arr,
-                test_arr,
-                self.data_transformation_config.preprocessor_obj_file_path
+                test_arr
             )
 
         except Exception as e:

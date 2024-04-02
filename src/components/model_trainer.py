@@ -29,31 +29,25 @@ class ModelTrainer:
     def __init__(self):
         self.model_trainer_config = ModelTrainerConfig()
     
-    def initiate_model_trainer(self, train_arr, test_arr):
+    def initiate_model_trainer(self,train_array,test_array):
         try:
-            logging.info("initiating model trainer")
-            X_train, X_test, y_train, y_test = (
-                train_arr[:, :-1],
-                test_arr[:, :-1],
-                train_arr[:, -1],
-                test_arr[:, -1]
+            logging.info("Split training and test input data")
+            X_train,y_train,X_test,y_test=(
+                train_array[:,:-1],
+                train_array[:,-1],
+                test_array[:,:-1],
+                test_array[:,-1]
             )
-            logging.info("converted the data into training and testing array")
-
             models = {
                 "Random Forest": RandomForestRegressor(),
+                "Decision Tree": DecisionTreeRegressor(),
+                "Gradient Boosting": GradientBoostingRegressor(),
                 "Linear Regression": LinearRegression(),
-                "CatBoost Regression": CatBoostRegressor(),
-                "AdaBoost Regression": AdaBoostRegressor(),
-                "Gradient Boosting Regressor": GradientBoostingRegressor(),
-                "Decision Tree Regressor": DecisionTreeRegressor(),
-                "K-Neighbors Regressor": KNeighborsRegressor(),
-                "XGB Regressor": XGBRegressor()
+                "XGBRegressor": XGBRegressor(),
+                "CatBoosting Regressor": CatBoostRegressor(verbose=False),
+                "AdaBoost Regressor": AdaBoostRegressor(),
             }
-
-            logging.info("initialized models")
-
-            # params = {
+            # params={
             #     "Decision Tree": {
             #         'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
             #         # 'splitter':['best','random'],
@@ -78,48 +72,50 @@ class ModelTrainer:
             #         'learning_rate':[.1,.01,.05,.001],
             #         'n_estimators': [8,16,32,64,128,256]
             #     },
+            #     "CatBoosting Regressor":{
+            #         'depth': [6,8,10],
+            #         'learning_rate': [0.01, 0.05, 0.1],
+            #         'iterations': [30, 50, 100]
+            #     },
             #     "AdaBoost Regressor":{
             #         'learning_rate':[.1,.01,0.5,.001],
             #         # 'loss':['linear','square','exponential'],
             #         'n_estimators': [8,16,32,64,128,256]
             #     }
+                
             # }
 
-            # logging.info("initialized parameters")
-
-            model_report:dict = evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test,
-                                                y_test=y_test, models=models)
+            model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,
+                                             models=models)
             
-            logging.info("called the evaluate_models function")
-            
+            ## To get best model score from dict
             best_model_score = max(sorted(model_report.values()))
-            logging.info("got the best model score")
+            logging.info(f'Best model score is {best_model_score}')
+            ## To get best model name from dict
 
-            best_model_name  = list(model_report.keys())[
+            best_model_name = list(model_report.keys())[
                 list(model_report.values()).index(best_model_score)
             ]
-            logging.info("got the best model name")
-
+            logging.info(f'Best model name is {best_model_name}')
             best_model = models[best_model_name]
-            logging.info('created a best model object')
 
-            if best_model_score < 0.6:
-                raise CustomException("No Best Model Found")
-            
-            logging.info("Best model found for training and testing dataset")
+            if best_model_score<0.6:
+                raise CustomException("No best model found")
+            logging.info(f"Best found model on both training and testing dataset")
 
             save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,
-                obj= best_model
+                obj=best_model
             )
-            logging.info('saved model pickle file')
 
-            predicted = best_model.predict(X_test)
-            logging.info('got a predicted value for x_test')
+            predicted=best_model.predict(X_test)
 
-            score = r2_score(y_test, predicted)
-            logging.info('returning r2_score')
-            return (score, best_model_name)
-        
+            r2_square = r2_score(y_test, predicted)
+            return r2_square
+            
+
+
+
+            
         except Exception as e:
-            raise CustomException(e, sys)
+            raise CustomException(e,sys)

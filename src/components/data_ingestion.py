@@ -31,17 +31,17 @@ class DataIngestion:
            df = pd.read_csv('notebook/data/housing.csv', header=None, names=column_names, delimiter=r"\s+")
            logging.info("Read the csv file with pandas as a dataframe")
 
-           df = df.drop(['CRIM', 'ZN', 'CHAS', 'RAD', 'B'], axis=1)
-           df = df[~(df['MEDV'] >= 50)]
+           new_df = df.drop(['CRIM', 'ZN', 'CHAS', 'RAD', 'B'], axis=1)
+           new_df = new_df[~(new_df['MEDV'] >= 50)]
 
            os.makedirs(os.path.dirname(self.data_ingestion_config.train_data_path), exist_ok=True)
            logging.info("Created a directory called artifact")
 
            logging.info("Saving the raw data as csv")
-           df.to_csv(self.data_ingestion_config.raw_data_path, index=False)
+           new_df.to_csv(self.data_ingestion_config.raw_data_path, index=False)
 
            logging.info('initiated train test split')
-           train_data, test_data = train_test_split(df, test_size=0.2)
+           train_data, test_data = train_test_split(new_df, test_size=0.2)
 
            logging.info("saving the train and test data into csv")
            train_data.to_csv(self.data_ingestion_config.train_data_path, index=False)
@@ -65,8 +65,7 @@ if __name__ == "__main__":
     train_df,test_df = obj.initiate_data_ingestion()
 
     data_transformation = DataTransformation()
-    train_arr,test_arr,_ = data_transformation.initiate_data_transformation(train_df, test_df)
-
+    train_arr,test_arr = data_transformation.initiate_data_transformation(train_df, test_df)
     model_trainer = ModelTrainer()
-    r2_score, model_name = model_trainer.initiate_model_trainer(train_arr, test_arr)
-    print(f'Score is {r2_score} and model name is {model_name}')
+    r2_score= model_trainer.initiate_model_trainer(train_arr, test_arr)
+    print(f'Score is {r2_score}')
