@@ -9,16 +9,40 @@
 </head>
 <body>
     <h1>Properties of the House Region</h1>
-    <p>
-        INDUS - proportion of non-retail business acres per town. <br>
-        NOX - nitric oxides concentration (parts per 10 million) <br>
-        RM - average number of rooms per dwelling <br>
-        AGE - proportion of owner-occupied units built prior to 1940 <br>
-        DIS -  weighted distances to five Boston employment centres <br>
-        TAX - full-value property-tax rate per $10,000 <br>
-        PTRATIO - pupil-teacher ratio by town <br>
-        LSTAT - % lower status of the population
-    </p>
+    <table>
+        <tr>
+            <th>INDUS</th>
+            <td>proportion of non-retail business acres per town.</td>
+        </tr>
+        <tr>
+            <th>NOX</th>
+            <td>nitric oxides concentration (parts per 10 million)</td>
+        </tr>
+        <tr>
+            <th>RM</th>
+            <td>average number of rooms per dwelling</td>
+        </tr>
+        <tr>
+            <th>AGE</th>
+            <td>proportion of owner-occupied units built prior to 1940</td>
+        </tr>
+        <tr>
+            <th>DIS</th>
+            <td>weighted distances to five Boston employment centres</td>
+        </tr>
+        <tr>
+            <th>TAX</th>
+            <td>full-value property-tax rate per $10,000</td>
+        </tr>
+        <tr>
+            <th>PTRATIO</th>
+            <td>pupil-teacher ratio by town</td>
+        </tr>
+        <tr>
+            <th>LSTAT</th>
+            <td>% lower status of the population</td>
+        </tr>
+    </table>
     <h3>Enter the details of the house according to the given indices</h3>
 	<form action="{{ url_for('predict_datapoint') }}" method="post">
         <label for="indus">INDUS: </label>
