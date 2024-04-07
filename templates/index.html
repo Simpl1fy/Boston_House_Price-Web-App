@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boston House Price Prediction</title>
+    <!-- adding css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <h1>Properties of the House Region</h1>
@@ -17,24 +19,24 @@
         PTRATIO - pupil-teacher ratio by town <br>
         LSTAT - % lower status of the population
     </p>
-    Enter the details of the house according to the given indices<br><br>
+    <h3>Enter the details of the house according to the given indices</h3>
 	<form action="{{ url_for('predict_datapoint') }}" method="post">
         <label for="indus">INDUS: </label>
-        <input type="text" name="indus" id="indus"> <br><br>
+        <input type="text" name="indus" id="indus" placeholder="proportion of non-retail business acres per town (0.47 to 28)"> <br><br>
         <label for="nox">NOX: </label>
-        <input type="text" name="nox" id="nox"> <br><br>
+        <input type="text" name="nox" id="nox" placeholder="nitric oxides concentration (parts per 10 million) (0.38 to 0.87)"> <br><br>
         <label for="rm">RM: </label>
-        <input type="text" name="rm" id="rm"> <br><br>
+        <input type="text" name="rm" id="rm" placeholder="average number of rooms per dwelling (3 to 9)"> <br><br>
         <label for="age">AGE: </label>
-	<input type="text" name="age" id="age"> <br><br>
+	    <input type="text" name="age" id="age" placeholder="proportion of owner-occupied units built prior to 1940 (2 to 100)"> <br><br>
         <label for="dis">DIS: </label>
-        <input type="text" name="dis" id="dis"> <br><br>
-	<label for="tax">TAX: </label>
-	<input type="text" name="tax" id="tax"> <br><br>
-	<label for="ptratio">PTRATIO: </label>
-	<input type="text" name="ptratio" id="ptratio"> <br><br>
+        <input type="text" name="dis" id="dis" placeholder="weighted distances to five Boston employment centres (1 to 12)"> <br><br>
+	    <label for="tax">TAX: </label>
+	    <input type="text" name="tax" id="tax" placeholder="full-value property-tax rate per $10,000 (187 to 712)"> <br><br>
+	    <label for="ptratio">PTRATIO: </label>
+	    <input type="text" name="ptratio" id="ptratio" placeholder="pupil-teacher ratio by town (12 to 23)"> <br><br>
         <label for="lstat">LSTAT: </label>
-        <input type="text" name="lstat" id="lstat"> <br><br>
+        <input type="text" name="lstat" id="lstat" placeholder="% lower status of the population (1 to 37)"> <br><br>
         <input type="submit" value="Submit">
     </form>
 
